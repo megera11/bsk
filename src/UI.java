@@ -199,6 +199,8 @@ public class UI extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         MatrixAPs1 matrixAPs1 = new MatrixAPs1();
+        //System.out.println(matrixAPs1.getEncryptedData());
+        System.out.println(matrixAPs1.getDecryptedData());
 
 
         /* Create and display the form */
