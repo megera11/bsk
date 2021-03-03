@@ -198,6 +198,8 @@ public class UI extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        MatrixAPs1 matrixAPs1 = new MatrixAPs1();
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
