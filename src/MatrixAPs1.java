@@ -7,9 +7,8 @@ public class MatrixAPs1 {
     int z = 0;
     String cryptedpasswd = "";
 
-    public MatrixAPs1(/*String key, String passwd*/){
+    public MatrixAPs1(String key){
 
-        String key= "3-1-4-2";
         String[] result = key.split("-");
 
         this.key = new int[result.length];
@@ -21,8 +20,7 @@ public class MatrixAPs1 {
 
     }
 
-    public String getEncryptedData(){
-        String passwd = "CRYPTOGRAPHYOSA";
+    public String getEncryptedData(String passwd){
         int cos = passwd.length()/this.key.length+1;
         encrypted = new char[this.key.length][cos];
 
@@ -43,8 +41,7 @@ public class MatrixAPs1 {
         return cryptedpasswd;
     }
 
-    public String getDecryptedData(){
-        String passwd = "YCPRGTROHAYPAOS";
+    public String getDecryptedData(String passwd){
         int cos = passwd.length()/this.key.length+1;
         encrypted = new char[this.key.length][cos];
 
@@ -62,7 +59,7 @@ public class MatrixAPs1 {
                     cryptedpasswd = cryptedpasswd + encrypted[i][j];
             }
         }
-        System.out.println();
+
         return cryptedpasswd;
     }
 }
