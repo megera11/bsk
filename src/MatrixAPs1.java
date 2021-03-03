@@ -62,6 +62,7 @@ public class MatrixAPs1 {
                     cryptedpasswd = cryptedpasswd + encrypted[i][j];
             }
         }
+        System.out.println();
         return cryptedpasswd;
     }
 }
