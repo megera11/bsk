@@ -1,5 +1,7 @@
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -95,11 +97,7 @@ public class UI extends javax.swing.JFrame {
         chooseFileButton.setText("Wybierz plik");
         chooseFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
                     chooseFileButtonActionPerformed(evt);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -256,7 +254,7 @@ public class UI extends javax.swing.JFrame {
         action = true;
     }
 
-    private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
+    private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int i = fileChooser.showOpenDialog(this);
         if (i == JFileChooser.APPROVE_OPTION) {
             File f = fileChooser.getSelectedFile();
