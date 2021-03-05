@@ -1,20 +1,21 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class UI extends javax.swing.JFrame {
 
-    boolean action =true;
+    boolean action = true;
+    String data = "";
 
-
-    // Variables declaration - do not modify
     private javax.swing.JComboBox<String> algorithmComboBox;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup optionGroup;
     private javax.swing.JButton chooseFileButton;
     private javax.swing.JRadioButton decryptRadioButton;
     private javax.swing.JRadioButton encryptRadioButton;
-    private javax.swing.JDialog jDialog1;
-    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -24,32 +25,25 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane resultTextPane;
     private javax.swing.JButton runButton;
-    private javax.swing.JTextField textInputTextField;
-    private javax.swing.JTextField textInputTextField1;
+    private javax.swing.JTextField dataInputTextField;
+    private javax.swing.JTextField codeInputTextField;
     private javax.swing.JFileChooser fileChooser;
-    // End of variables declaration
 
 
     public UI() {
         initComponents();
         int cos[] = new int[4];
+        this.setResizable(false);
     }
 
-
-    //@SuppressWarnings("unchecked")
 
     private void initComponents() {
 
 
-
         //tworzenie componentow
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        jDialog1 = new javax.swing.JDialog();
-        jFileChooser1 = new javax.swing.JFileChooser();
-        jTextField1 = new javax.swing.JTextField();
+        optionGroup = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         decryptRadioButton = new javax.swing.JRadioButton();
@@ -57,35 +51,23 @@ public class UI extends javax.swing.JFrame {
         algorithmComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         chooseFileButton = new javax.swing.JButton();
-        textInputTextField = new javax.swing.JTextField();
+        dataInputTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         runButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        textInputTextField1 = new javax.swing.JTextField();
+        codeInputTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        resultTextPane = new javax.swing.JTextPane();
         fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
         fileChooser.setFileFilter(filter);
 
-
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-                jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-        );
-        jDialog1Layout.setVerticalGroup(
-                jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-        );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        buttonGroup1.add(decryptRadioButton);
+        optionGroup.add(decryptRadioButton);
         decryptRadioButton.setText("Deszyfruj");
         decryptRadioButton.setMaximumSize(new java.awt.Dimension(60, 20));
         decryptRadioButton.setMinimumSize(new java.awt.Dimension(60, 20));
@@ -95,7 +77,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(encryptRadioButton);
+        optionGroup.add(encryptRadioButton);
         encryptRadioButton.setText("Szyfruj");
         encryptRadioButton.setSelected(true);
         encryptRadioButton.setMaximumSize(new java.awt.Dimension(60, 20));
@@ -106,14 +88,18 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rail fence", "Przestawienie A", "Przestawienie B"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B"}));
 
         jLabel1.setText("Wybierz algorytm");
 
         chooseFileButton.setText("Wybierz plik");
         chooseFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseFileButtonActionPerformed(evt);
+                try {
+                    chooseFileButtonActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -134,8 +120,8 @@ public class UI extends javax.swing.JFrame {
 
         jLabel6.setText("Wynik");
 
-        jTextPane1.setEditable(false);
-        jScrollPane1.setViewportView(jTextPane1);
+        resultTextPane.setEditable(false);
+        jScrollPane1.setViewportView(resultTextPane);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,8 +142,8 @@ public class UI extends javax.swing.JFrame {
                                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(textInputTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(textInputTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dataInputTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(codeInputTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                                 .addComponent(chooseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,11 +164,11 @@ public class UI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textInputTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(codeInputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textInputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dataInputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -215,6 +201,53 @@ public class UI extends javax.swing.JFrame {
         pack();
     }// generowany kod ----------------------------------------------------------------
 
+    private void readFile(File file) {
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(file.getPath()));
+            this.data = new String(encoded, StandardCharsets.US_ASCII);
+        } catch (IOException e) {
+            System.out.println("");
+        }
+    }
+
+    private boolean isRailKeyValid() {
+        String key = codeInputTextField.getText();
+        if(key.matches("")){
+            resultTextPane.setText("Klucz musi być podany");
+            return false;
+        }
+        if (key.length() > 1) {
+            resultTextPane.setText("Zakres klucza dla algorytmu railfence 1-9");
+            return false;
+        }
+        if (key.charAt(0) >= '1' && key.charAt(0) <= '9') {
+            return true;
+        }else{
+            resultTextPane.setText("Wpisałeś znak zamiast liczbę");
+            return false;
+        }
+
+    }
+
+    private boolean isMatrixAKeyValid() {
+        String key = codeInputTextField.getText();
+        if(key.matches("")){
+            resultTextPane.setText("Klucz musi być podany");
+            return false;
+        }
+        for (int i = 0; i < key.length();i++) {
+            if(i%2==0 && key.charAt(i) >= '1' && key.charAt(i) <= '9'){
+
+            }else if (i%2!=0 && key.charAt(i)=='-'){
+
+            }else{
+                resultTextPane.setText("Format dla klucza dla algorytmu MacierzA powinien wygladac: 2-4-3-1");
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void decryptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {
         action = false;
     }
@@ -223,70 +256,81 @@ public class UI extends javax.swing.JFrame {
         action = true;
     }
 
-    private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-
-        int i=fileChooser.showOpenDialog(this);
-        if(i==JFileChooser.APPROVE_OPTION) {
+    private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
+        int i = fileChooser.showOpenDialog(this);
+        if (i == JFileChooser.APPROVE_OPTION) {
             File f = fileChooser.getSelectedFile();
-            jLabel5.setText("Wybrany plik: "+f.getName());
+            jLabel5.setText("Wybrany plik: " + f.getName());
+            readFile(f);
         }
-        }
+    }
+
+
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         int index = algorithmComboBox.getSelectedIndex();
-
-        switch (index){
+        resultTextPane.setText("");
+        switch (index) {
             case 0:
-              if(action){
-                  MatrixAPs1 railFence = new MatrixAPs1(textInputTextField1.getText());
-                  jTextPane1.setText( railFence.getEncryptedData(textInputTextField.getText()));
-              }else{
-                  MatrixAPs1 railFence = new MatrixAPs1(textInputTextField1.getText());
-                  jTextPane1.setText( railFence.getDecryptedData(textInputTextField.getText()));
-              }
-            break;
-        }
-
-        if(textInputTextField.getText().matches("")) {
-
-        }
-        else
-        {
-
-        }
-
-
-    }
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+                if(isRailKeyValid()) {
+                    RailFence railFence = new RailFence(Integer.parseInt(codeInputTextField.getText()));
+                    if(!dataInputTextField.getText().matches("")) {
+                        if (action) {
+                            resultTextPane.setText(railFence.getEncryptedData(dataInputTextField.getText()));
+                        } else {
+                            resultTextPane.setText(railFence.getDecryptedData(dataInputTextField.getText()));
+                        }
+                    }else{
+                        if (action) {
+                            resultTextPane.setText(railFence.getEncryptedData(this.data));
+                        } else {
+                            resultTextPane.setText(railFence.getDecryptedData(this.data));
+                        }
+                    }
                 }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                break;
+            case 1:
+                if(isMatrixAKeyValid()) {
+                    MatrixAPs1 matrixA = new MatrixAPs1(codeInputTextField.getText());
+                    if(!dataInputTextField.getText().matches("")) {
+                        if (action) {
+                            resultTextPane.setText(matrixA.getEncryptedData(dataInputTextField.getText()));
+                        } else {
+                            resultTextPane.setText(matrixA.getDecryptedData(dataInputTextField.getText()));
+                        }
+                    }else {
+                        if (action) {
+                            resultTextPane.setText(matrixA.getEncryptedData(this.data));
+                        } else {
+                            resultTextPane.setText(matrixA.getDecryptedData(this.data));
+                        }
+                    }
+                }
+                break;
+            case 2:
+                if(!dataInputTextField.getText().matches("")) {
+                    MatrixBPs1 matrixB = new MatrixBPs1(codeInputTextField.getText());
+                    if (action) {
+                        //resultTextPane.setText( matrixB.getEncryptedData(dataInputTextField.getText()));
+                    } else {
+                        //resultTextPane.setText( matrixB.getDecryptedData(dataInputTextField.getText()));
+                    }
+                }else{
+                    if (action) {
+                        //resultTextPane.setText( matrixB.getEncryptedData(this.data));
+                    } else {
+                        //resultTextPane.setText( matrixB.getDecryptedData(this.data));
+                    }
+                }
+                break;
+            default:
+                System.out.println("Problem z wybranym algorytmem");
+                break;
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    }
 
-        /* Create and display the form */
+    public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UI().setVisible(true);
