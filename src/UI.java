@@ -36,7 +36,6 @@ public class UI extends javax.swing.JFrame {
 
     public UI() {
         initComponents();
-        int cos[] = new int[4];
         this.setResizable(false);
     }
 
@@ -97,7 +96,7 @@ public class UI extends javax.swing.JFrame {
         chooseFileButton.setText("Wybierz plik");
         chooseFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    chooseFileButtonActionPerformed(evt);
+                chooseFileButtonActionPerformed(evt);
             }
         });
 
@@ -199,6 +198,10 @@ public class UI extends javax.swing.JFrame {
         pack();
     }// generowany kod ----------------------------------------------------------------
 
+    private int parseToInt(char c) {
+        return Character.getNumericValue(c);
+    }
+
     private void readFile(File file) {
         try {
             byte[] encoded = Files.readAllBytes(Paths.get(file.getPath()));
@@ -210,7 +213,7 @@ public class UI extends javax.swing.JFrame {
 
     private boolean isRailKeyValid() {
         String key = codeInputTextField.getText();
-        if(key.matches("")){
+        if (key.matches("")) {
             resultTextPane.setText("Klucz musi być podany");
             return false;
         }
@@ -220,8 +223,8 @@ public class UI extends javax.swing.JFrame {
         }
         if (key.charAt(0) >= '1' && key.charAt(0) <= '9') {
             return true;
-        }else{
-            resultTextPane.setText("Wpisałeś znak zamiast liczbę");
+        } else {
+            resultTextPane.setText("Wpisałeś znak lub 0 zamiast liczbę");
             return false;
         }
 
@@ -229,20 +232,45 @@ public class UI extends javax.swing.JFrame {
 
     private boolean isMatrixAKeyValid() {
         String key = codeInputTextField.getText();
-        if(key.matches("")){
+        int max = 0;
+        int[] numbers = new int[(key.length() + 1) / 2];
+        int number = 0;
+        int pom = 0;
+        int k = 0;
+        if (key.matches("")) {
             resultTextPane.setText("Klucz musi być podany");
             return false;
         }
-        for (int i = 0; i < key.length();i++) {
-            if(i%2==0 && key.charAt(i) >= '1' && key.charAt(i) <= '9'){
+        for (int i = 0; i < key.length(); i++) {
+            if (i % 2 == 0 && key.charAt(i) >= '1' && key.charAt(i) <= '9') {
+                number = parseToInt(key.charAt(i));
+                numbers[k] = number;
+                k++;
+                if (number > max) {
+                    max = number;
+                }
+            } else if (i % 2 != 0 && key.charAt(i) == '-') {
 
-            }else if (i%2!=0 && key.charAt(i)=='-'){
-
-            }else{
+            } else {
                 resultTextPane.setText("Format dla klucza dla algorytmu MacierzA powinien wygladac: 2-4-3-1");
                 return false;
             }
         }
+
+        for (int i = max; i > 0; i--) {
+            for (int j = 0; j < numbers.length; j++) {
+                if (numbers[j] == i) {
+                    pom++;
+                }
+            }
+            if (pom == 0) {
+                resultTextPane.setText("Zły format klucza");
+                return false;
+            } else {
+                pom = 0;
+            }
+        }
+
         return true;
     }
 
@@ -264,21 +292,20 @@ public class UI extends javax.swing.JFrame {
     }
 
 
-
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int index = algorithmComboBox.getSelectedIndex();
         resultTextPane.setText("");
         switch (index) {
             case 0:
-                if(isRailKeyValid()) {
+                if (isRailKeyValid()) {
                     RailFence railFence = new RailFence(Integer.parseInt(codeInputTextField.getText()));
-                    if(!dataInputTextField.getText().matches("")) {
+                    if (!dataInputTextField.getText().matches("")) {
                         if (action) {
                             resultTextPane.setText(railFence.getEncryptedData(dataInputTextField.getText()));
                         } else {
                             resultTextPane.setText(railFence.getDecryptedData(dataInputTextField.getText()));
                         }
-                    }else{
+                    } else {
                         if (action) {
                             resultTextPane.setText(railFence.getEncryptedData(this.data));
                         } else {
@@ -288,15 +315,15 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 1:
-                if(isMatrixAKeyValid()) {
+                if (isMatrixAKeyValid()) {
                     MatrixAPs1 matrixA = new MatrixAPs1(codeInputTextField.getText());
-                    if(!dataInputTextField.getText().matches("")) {
+                    if (!dataInputTextField.getText().matches("")) {
                         if (action) {
                             resultTextPane.setText(matrixA.getEncryptedData(dataInputTextField.getText()));
                         } else {
                             resultTextPane.setText(matrixA.getDecryptedData(dataInputTextField.getText()));
                         }
-                    }else {
+                    } else {
                         if (action) {
                             resultTextPane.setText(matrixA.getEncryptedData(this.data));
                         } else {
@@ -306,14 +333,14 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if(!dataInputTextField.getText().matches("")) {
+                if (!dataInputTextField.getText().matches("")) {
                     MatrixBPs1 matrixB = new MatrixBPs1(codeInputTextField.getText());
                     if (action) {
                         //resultTextPane.setText( matrixB.getEncryptedData(dataInputTextField.getText()));
                     } else {
                         //resultTextPane.setText( matrixB.getDecryptedData(dataInputTextField.getText()));
                     }
-                }else{
+                } else {
                     if (action) {
                         //resultTextPane.setText( matrixB.getEncryptedData(this.data));
                     } else {
