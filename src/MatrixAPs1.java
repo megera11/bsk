@@ -21,20 +21,24 @@ public class MatrixAPs1 {
     }
 
     public String getEncryptedData(String passwd){
-        int cos = passwd.length()/this.key.length+1;
-        encrypted = new char[this.key.length][cos];
+        int row = passwd.length()/this.key.length+1;
+        encrypted = new char[row][this.key.length];
 
-        for(int i=0; i<this.key.length; i++){
-            for(int j=0; j<cos; j++){
+        for(int i=0; i<row; i++){
+            for(int j=0; j<this.key.length; j++){
                 if(passwd.length() > z){
                     encrypted[i][j] = passwd.charAt(z++);
                 }
+                else
+                    encrypted[i][j] = ' ';
             }
         }
 
         for(int i=0; i<encrypted.length; i++){
             for(int j=0; j<this.key.length; j++){
-                if(encrypted[i][this.key[j]-1] != 0)
+                if(encrypted[i][this.key[j]-1] == ' ')
+                    cryptedpasswd = cryptedpasswd + " ";
+                else
                     cryptedpasswd = cryptedpasswd + encrypted[i][this.key[j]-1];
             }
         }
@@ -42,11 +46,11 @@ public class MatrixAPs1 {
     }
 
     public String getDecryptedData(String passwd){
-        int cos = passwd.length()/this.key.length+1;
-        encrypted = new char[this.key.length][cos];
+        int row = passwd.length()/this.key.length+1;
+        encrypted = new char[row][this.key.length];
 
-        for(int i=0; i<this.key.length; i++){
-            for(int j=0; j<cos; j++){
+        for(int i=0; i<row; i++){
+            for(int j=0; j<this.key.length; j++){
                 if(passwd.length() > z){
                     encrypted[i][this.key[j]-1] = passwd.charAt(z++);
                 }
@@ -55,7 +59,6 @@ public class MatrixAPs1 {
 
         for(int i=0; i<encrypted.length; i++){
             for(int j=0; j<this.key.length; j++){
-                if(encrypted[i][this.key[j]-1] != 0)
                     cryptedpasswd = cryptedpasswd + encrypted[i][j];
             }
         }
