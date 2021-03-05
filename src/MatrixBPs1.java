@@ -49,7 +49,12 @@ public class MatrixBPs1 {
     }
 
     public String decryption(String password){
-        StringBuilder msg = new StringBuilder(password);
+        String psswd = "";
+        String[] result = password.split(" ");
+        for(int i = 0; i< result.length; i++){
+            psswd = psswd + result[i];
+        }
+        StringBuilder msg = new StringBuilder(psswd);
 
         int numOfRows = msg.length() / key.length();
 
@@ -84,11 +89,11 @@ public class MatrixBPs1 {
 
     private int getNumberLocation(int number, int[] kywrdNumList) {
         int position = 0;
-            for (int j = 0; j < key.length(); j++) {
-                if (kywrdNumList[j] == number+1){
-                    position = j;
-                }
+        for (int j = 0; j < key.length(); j++) {
+            if (kywrdNumList[j] == number+1){
+                position = j;
             }
+        }
         return position;
     }
 
