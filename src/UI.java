@@ -1,9 +1,10 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 public class UI extends javax.swing.JFrame {
 
-    private boolean action = false;
+    boolean action =true;
 
 
     // Variables declaration - do not modify
@@ -67,6 +68,8 @@ public class UI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        fileChooser.setFileFilter(filter);
 
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
@@ -94,6 +97,7 @@ public class UI extends javax.swing.JFrame {
 
         buttonGroup1.add(encryptRadioButton);
         encryptRadioButton.setText("Szyfruj");
+        encryptRadioButton.setSelected(true);
         encryptRadioButton.setMaximumSize(new java.awt.Dimension(60, 20));
         encryptRadioButton.setMinimumSize(new java.awt.Dimension(60, 20));
         encryptRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -225,20 +229,31 @@ public class UI extends javax.swing.JFrame {
         int i=fileChooser.showOpenDialog(this);
         if(i==JFileChooser.APPROVE_OPTION) {
             File f = fileChooser.getSelectedFile();
-            String filename = f.getName();
-            jLabel5.setText("Wybrany plik: "+filename);
+            jLabel5.setText("Wybrany plik: "+f.getName());
         }
         }
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        int index = algorithmComboBox.getSelectedIndex();
+
+        switch (index){
+            case 0:
+              if(action){
+                  MatrixAPs1 railFence = new MatrixAPs1(textInputTextField1.getText());
+                  jTextPane1.setText( railFence.getEncryptedData(textInputTextField.getText()));
+              }else{
+                  MatrixAPs1 railFence = new MatrixAPs1(textInputTextField1.getText());
+                  jTextPane1.setText( railFence.getDecryptedData(textInputTextField.getText()));
+              }
+            break;
+        }
+
         if(textInputTextField.getText().matches("")) {
 
         }
         else
         {
-          RailFence railFence = new RailFence(3);
-          jTextPane1.setText( railFence.getEncryptedData(textInputTextField.getText()));
 
         }
 
