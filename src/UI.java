@@ -240,11 +240,11 @@ public class UI extends javax.swing.JFrame {
         switch (index){
             case 0:
               if(action){
-                  MatrixAPs1 railFence = new MatrixAPs1(textInputTextField1.getText());
-                  jTextPane1.setText( railFence.getEncryptedData(textInputTextField.getText()));
+                  MatrixBPs1 railFence = new MatrixBPs1(textInputTextField1.getText());
+                  jTextPane1.setText( railFence.encryption(textInputTextField.getText()));
               }else{
-                  MatrixAPs1 railFence = new MatrixAPs1(textInputTextField1.getText());
-                  jTextPane1.setText( railFence.getDecryptedData(textInputTextField.getText()));
+                  MatrixBPs1 railFence = new MatrixBPs1(textInputTextField1.getText());
+                  jTextPane1.setText( railFence.decryption(textInputTextField.getText()));
               }
             break;
         }
