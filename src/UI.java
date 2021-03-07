@@ -2,8 +2,8 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -204,11 +204,18 @@ public class UI extends javax.swing.JFrame {
 
     private void readFile(File file) {
         try {
-            byte[] encoded = Files.readAllBytes(Paths.get(file.getPath()));
-            this.data = new String(encoded, StandardCharsets.US_ASCII);
+            InputStream fis = new FileInputStream(file.getPath());
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                this.data= data+" "+line;
+            }
         } catch (IOException e) {
             System.out.println("");
         }
+
+
     }
 
     private boolean isRailKeyValid() {
@@ -264,13 +271,29 @@ public class UI extends javax.swing.JFrame {
                 }
             }
             if (pom == 0) {
-                resultTextPane.setText("Zły format klucza");
+
                 return false;
             } else {
                 pom = 0;
             }
         }
 
+        return true;
+    }
+
+
+    private boolean isMatrixBKeyValid(){
+        if(codeInputTextField.getText()==""){
+            resultTextPane.setText("Zły format klucza");
+            return false;
+        }
+        char[] chars = codeInputTextField.getText().toCharArray();
+        for (char c : chars) {
+            if(!Character.isLetter(c)) {
+                resultTextPane.setText("Zły format klucza");
+                return false;
+            }
+        }
         return true;
     }
 
@@ -326,6 +349,7 @@ public class UI extends javax.swing.JFrame {
                     } else {
                         if (action) {
                             resultTextPane.setText(matrixA.getEncryptedData(this.data));
+                            System.out.println(" ");
                         } else {
                             resultTextPane.setText(matrixA.getDecryptedData(this.data));
                         }
@@ -333,18 +357,21 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if (!dataInputTextField.getText().matches("")) {
+                if(isMatrixBKeyValid()) {
                     MatrixBPs1 matrixB = new MatrixBPs1(codeInputTextField.getText());
-                    if (action) {
-                        //resultTextPane.setText( matrixB.getEncryptedData(dataInputTextField.getText()));
+                    if (!dataInputTextField.getText().matches("")) {
+
+                        if (action) {
+                            resultTextPane.setText(matrixB.encryption(dataInputTextField.getText()));
+                        } else {
+                            resultTextPane.setText(matrixB.decryption(dataInputTextField.getText()));
+                        }
                     } else {
-                        //resultTextPane.setText( matrixB.getDecryptedData(dataInputTextField.getText()));
-                    }
-                } else {
-                    if (action) {
-                        //resultTextPane.setText( matrixB.getEncryptedData(this.data));
-                    } else {
-                        //resultTextPane.setText( matrixB.getDecryptedData(this.data));
+                        if (action) {
+                            resultTextPane.setText(matrixB.encryption(this.data));
+                        } else {
+                            resultTextPane.setText(matrixB.decryption(this.data));
+                        }
                     }
                 }
                 break;
