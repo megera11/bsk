@@ -89,7 +89,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Cezar", "Vigenere"}));
 
         jLabel1.setText("Wybierz algorytm");
 
@@ -389,6 +389,25 @@ public class UI extends javax.swing.JFrame {
                             resultTextPane.setText(ceasar.encrypt(this.data));
                         } else {
                             resultTextPane.setText(ceasar.decrypt(this.data));
+                        }
+                    }
+                }
+                break;
+            case 4:
+                if(isMatrixBKeyValid()) {
+                    Vigenere vigenere = new Vigenere(codeInputTextField.getText(), dataInputTextField.getText());
+                    if (!dataInputTextField.getText().matches("")) {
+
+                        if (action) {
+                            resultTextPane.setText(vigenere.encrypt(dataInputTextField.getText()));
+                        } else {
+                            resultTextPane.setText(vigenere.decrypt(dataInputTextField.getText()));
+                        }
+                    } else {
+                        if (action) {
+                            resultTextPane.setText(vigenere.encrypt(this.data));
+                        } else {
+                            resultTextPane.setText(vigenere.decrypt(this.data));
                         }
                     }
                 }
