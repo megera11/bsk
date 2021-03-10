@@ -89,7 +89,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Cezar", "Vigenere"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere"}));
 
         jLabel1.setText("Wybierz algorytm");
 
@@ -375,7 +375,7 @@ public class UI extends javax.swing.JFrame {
                     }
                 }
                 break;
-            case 3:
+            case 4:
                 if (isRailKeyValid()) {
                     Ceasar ceasar = new Ceasar(Integer.parseInt(codeInputTextField.getText()));
                     if (!dataInputTextField.getText().matches("")) {
@@ -393,7 +393,7 @@ public class UI extends javax.swing.JFrame {
                     }
                 }
                 break;
-            case 4:
+            case 5:
                 if(isMatrixBKeyValid()) {
                     Vigenere vigenere = new Vigenere(codeInputTextField.getText(), dataInputTextField.getText());
                     if (!dataInputTextField.getText().matches("")) {
