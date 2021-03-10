@@ -375,6 +375,25 @@ public class UI extends javax.swing.JFrame {
                     }
                 }
                 break;
+            case 3:
+                if(isMatrixBKeyValid()) {
+                    MatrixCPs2 matrixC = new MatrixCPs2(codeInputTextField.getText());
+                    if (!dataInputTextField.getText().matches("")) {
+
+                        if (action) {
+                            resultTextPane.setText(matrixC.encryption(dataInputTextField.getText()));
+                        } else {
+                            resultTextPane.setText(matrixC.decryption(dataInputTextField.getText()));
+                        }
+                    } else {
+                        if (action) {
+                            resultTextPane.setText(matrixC.encryption(this.data));
+                        } else {
+                            resultTextPane.setText(matrixC.decryption(this.data));
+                        }
+                    }
+                }
+                break;
             case 4:
                 if (isRailKeyValid()) {
                     Ceasar ceasar = new Ceasar(Integer.parseInt(codeInputTextField.getText()));
