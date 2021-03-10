@@ -375,6 +375,24 @@ public class UI extends javax.swing.JFrame {
                     }
                 }
                 break;
+            case 3:
+                if (isRailKeyValid()) {
+                    Ceasar ceasar = new Ceasar(Integer.parseInt(codeInputTextField.getText()));
+                    if (!dataInputTextField.getText().matches("")) {
+                        if (action) {
+                            resultTextPane.setText(ceasar.encrypt(dataInputTextField.getText()));
+                        } else {
+                            resultTextPane.setText(ceasar.decrypt(dataInputTextField.getText()));
+                        }
+                    } else {
+                        if (action) {
+                            resultTextPane.setText(ceasar.encrypt(this.data));
+                        } else {
+                            resultTextPane.setText(ceasar.decrypt(this.data));
+                        }
+                    }
+                }
+                break;
             default:
                 System.out.println("Problem z wybranym algorytmem");
                 break;
