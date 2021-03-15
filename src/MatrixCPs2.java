@@ -40,14 +40,6 @@ public class MatrixCPs2 {
             }
         }
 
-        for (int i = 0; i < numOfRows; i++) {
-            for (int j = 0; j < key.length(); j++) {
-                System.out.print(arr[i][j] + " ");
-            }
-            System.out.println();
-        }
-
-
         StringBuilder cipherText = new StringBuilder();
         for (int i = 0, k = 0; i < key.length(); i++, k++) {
             int g;
@@ -57,7 +49,9 @@ public class MatrixCPs2 {
                 g = getNumberLocation(k, kywrdNumList);
             }
             for (int j = 0; j < numOfRows; j++) {
+                if(arr[j][g]!=(char)0) {
                     cipherText.append(arr[j][g]);
+                }
             }
             cipherText.append(" ");
         }
@@ -88,20 +82,36 @@ public class MatrixCPs2 {
         int numOfRows = len+1;
         char[][] arr = new char[numOfRows][key.length()];
 
-
         int d=0;
+        for(int i=0;i<key.length() && d<numOfRows;i++){
+            int pom=getNumberLocation(i,kywrdNumList)+1;
+                for(int j=pom;j<key.length();j++) {
+                    arr[d][j] = '.';
+                }
+                d++;
+        }
+
+        d=0;
         for (int k = 0,i = 0; i < result.length; i++,k++) {
             d=kywrdNumList[i]-1;
-            for (int j = 0; j < result[d].length() ; j++) {
-
-                arr[j][k] = result[d].charAt(j);
+            int j=0;
+            int n=0;
+            while(n < result[d].length()){
+                if(arr[j][k]!='.') {
+                    arr[j][k] = result[d].charAt(n);
+                    System.out.println(arr[j][k]);
+                    n++;
+                }
+                j++;
             }
         }
+
+
 
         StringBuilder plainText = new StringBuilder();
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < key.length(); j++) {
-                if(arr[i][j]!=(char)0) {
+                if(arr[i][j]!='.') {
                     if (arr[i][j] == ' ') {
                         plainText.append(arr[++i][j] + " ");
                         i--;

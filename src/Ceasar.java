@@ -2,25 +2,20 @@ public class Ceasar {
 
     int s;
 
-    public Ceasar(int s){
+    public Ceasar(int s) {
         this.s = s;
     }
 
-    public String encrypt(String text)
-    {
-        StringBuffer result= new StringBuffer();
+    public String encrypt(String text) {
+        StringBuffer result = new StringBuffer();
 
-        for (int i=0; i<text.length(); i++)
-        {
-            if (Character.isUpperCase(text.charAt(i)))
-            {
-                char ch = (char)(((int)text.charAt(i) +
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                char ch = (char) ((text.charAt(i) +
                         s - 65) % 26 + 65);
                 result.append(ch);
-            }
-            else
-            {
-                char ch = (char)(((int)text.charAt(i) +
+            } else {
+                char ch = (char) ((text.charAt(i) +
                         s - 97) % 26 + 97);
                 result.append(ch);
             }
@@ -28,21 +23,16 @@ public class Ceasar {
         return result.toString();
     }
 
-    public String decrypt(String text)
-    {
-        StringBuffer result= new StringBuffer();
+    public String decrypt(String text) {
+        StringBuffer result = new StringBuffer();
 
-        for (int i=0; i<text.length(); i++)
-        {
-            if (Character.isUpperCase(text.charAt(i)))
-            {
-                char ch = (char)(((int)text.charAt(i) -
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isUpperCase(text.charAt(i))) {
+                char ch = (char) (((int) text.charAt(i) -
                         s + 65) % 26 + 65);
                 result.append(ch);
-            }
-            else
-            {
-                char ch = (char)(((int)text.charAt(i) -
+            } else {
+                char ch = (char) (((int) text.charAt(i) -
                         s + 97) % 26 + 97);
                 result.append(ch);
             }
