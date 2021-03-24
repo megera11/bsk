@@ -33,6 +33,15 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JTextField codeInputTextField;
     private javax.swing.JFileChooser fileChooser;
 
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton chooseFileButton1;
+    private javax.swing.JButton runButton1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JTextField textInputTextField3;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextPane jTextPane2;
+
 
     public UI() {
         initComponents();
@@ -66,6 +75,16 @@ public class UI extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
         fileChooser.setFileFilter(filter);
 
+
+        jPanel3 = new javax.swing.JPanel();
+        chooseFileButton1 = new javax.swing.JButton();
+        runButton1 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        textInputTextField3 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         optionGroup.add(decryptRadioButton);
@@ -89,7 +108,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Szyfr strumieniowy"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Random"}));
 
         jLabel1.setText("Wybierz algorytm");
 
@@ -180,9 +199,64 @@ public class UI extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jScrollPane2)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(textInputTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                                .addComponent(chooseFileButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                                .addComponent(runButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textInputTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(chooseFileButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(runButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                                .addGap(258, 258, 258))
+        );
+
+        chooseFileButton1.setText("Start");
+        chooseFileButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chooseFileButton1ActionPerformed(evt);
+            }
+        });
+
+        runButton1.setText("Stop");
+        runButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Wpisz wielomian");
+
+        jLabel12.setText("Wynik");
+
+        jTextPane2.setEditable(false);
+        jScrollPane2.setViewportView(jTextPane2);
+
         jLabel5.getAccessibleContext().setAccessibleName("");
 
-        jTabbedPane1.addTab("tab1", jPanel1);
+        jTabbedPane1.addTab("Kryptografia", jPanel1);
+        jTabbedPane1.addTab("LFSR", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -432,29 +506,21 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 6:
-                LFSR lfsr = new LFSR(codeInputTextField.getText());
-                SynchronousStreamCipher synchronousStreamCipher = new SynchronousStreamCipher(dataInputTextField.getText(), lfsr);
-                resultTextPane.setText(synchronousStreamCipher.decrypt());
-                /*if (!dataInputTextField.getText().matches("")) {
+                LFSR.convertPolynomial(dataInputTextField.getText());
 
-                    if (action) {
-                        resultTextPane.setText(synchronousStreamCipher.encrypt(dataInputTextField.getText()));
-                    } else {
-                            resultTextPane.setText(synchronousStreamCipher.encrypt(dataInputTextField.getText()););
-                    }
-                } else {
-                    if (action) {
-                        resultTextPane.setText(synchronousStreamCipher.encrypt(this.data));
-                    } else {
-                        resultTextPane.setText(synchronousStreamCipher.encrypt(this.data););
-                    }
-                }*/
-
-                break;
             default:
                 System.out.println("Problem z wybranym algorytmem");
                 break;
         }
+    }
+
+
+    private void runButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+
+    }
+
+    private void chooseFileButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+
     }
 
     public static void main(String args[]) {
