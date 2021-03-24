@@ -89,7 +89,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Szyfr strumieniowy"}));
 
         jLabel1.setText("Wybierz algorytm");
 
@@ -209,7 +209,7 @@ public class UI extends javax.swing.JFrame {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                this.data= data+" "+line;
+                this.data = data + " " + line;
             }
         } catch (IOException e) {
             System.out.println("");
@@ -282,14 +282,14 @@ public class UI extends javax.swing.JFrame {
     }
 
 
-    private boolean isMatrixBKeyValid(){
-        if(codeInputTextField.getText()==""){
+    private boolean isMatrixBKeyValid() {
+        if (codeInputTextField.getText() == "") {
             resultTextPane.setText("Zły format klucza");
             return false;
         }
         char[] chars = codeInputTextField.getText().toCharArray();
         for (char c : chars) {
-            if(!Character.isLetter(c)) {
+            if (!Character.isLetter(c)) {
                 resultTextPane.setText("Zły format klucza");
                 return false;
             }
@@ -357,7 +357,7 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if(isMatrixBKeyValid()) {
+                if (isMatrixBKeyValid()) {
                     MatrixBPs1 matrixB = new MatrixBPs1(codeInputTextField.getText());
                     if (!dataInputTextField.getText().matches("")) {
 
@@ -376,7 +376,7 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 3:
-                if(isMatrixBKeyValid()) {
+                if (isMatrixBKeyValid()) {
                     MatrixCPs2 matrixC = new MatrixCPs2(codeInputTextField.getText());
                     if (!dataInputTextField.getText().matches("")) {
 
@@ -413,7 +413,7 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 5:
-                if(isMatrixBKeyValid()) {
+                if (isMatrixBKeyValid()) {
                     Vigenere vigenere = new Vigenere(codeInputTextField.getText(), dataInputTextField.getText());
                     if (!dataInputTextField.getText().matches("")) {
 
@@ -430,6 +430,26 @@ public class UI extends javax.swing.JFrame {
                         }
                     }
                 }
+                break;
+            case 6:
+                LFSR lfsr = new LFSR(codeInputTextField.getText());
+                SynchronousStreamCipher synchronousStreamCipher = new SynchronousStreamCipher(dataInputTextField.getText(), lfsr);
+                resultTextPane.setText(synchronousStreamCipher.decrypt());
+                /*if (!dataInputTextField.getText().matches("")) {
+
+                    if (action) {
+                        resultTextPane.setText(synchronousStreamCipher.encrypt(dataInputTextField.getText()));
+                    } else {
+                            resultTextPane.setText(synchronousStreamCipher.encrypt(dataInputTextField.getText()););
+                    }
+                } else {
+                    if (action) {
+                        resultTextPane.setText(synchronousStreamCipher.encrypt(this.data));
+                    } else {
+                        resultTextPane.setText(synchronousStreamCipher.encrypt(this.data););
+                    }
+                }*/
+
                 break;
             default:
                 System.out.println("Problem z wybranym algorytmem");
