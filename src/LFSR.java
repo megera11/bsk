@@ -1,17 +1,16 @@
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class LFSR {
 
     private String reg;
     private int N;
-    private JButton button;
 
-    public LFSR(String seed, JButton button) {
+    public LFSR(String seed) {
         reg = seed;
         N = seed.length();
-        this.button = button;
     }
 
     public static int ithConv(String str, int i) {
@@ -38,14 +37,33 @@ public class LFSR {
         return reg;
     }
 
-    public String generate() {
-        String seed = "0110";
-        String result = "";
-        while (!button.getModel().isPressed()) {
-            int bit = step();
-            result += bit;
+    public String generate(JToggleButton button, JTextPane jTextPane) {
+        final String[] result = {""};
+        Thread thread = new Thread(){
+            public void run(){
+                while(!button.isSelected()) {
+
+                    int bit = step();
+                    result[0] += bit;
+                    System.out.println(result[0]);
+                    jTextPane.setText(result[0]);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                button.setSelected(false);
+            }
+        };
+        thread.start();
+        if(button.getModel().isPressed()){
+            thread.stop();
         }
-        return result;
+        /*while (!button.getModel().isPressed()) {
+
+        }*/
+        return result[0];
     }
 
     public static String convertPolynomial(String string) {

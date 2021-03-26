@@ -35,12 +35,13 @@ public class UI extends javax.swing.JFrame {
 
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton chooseFileButton1;
-    private javax.swing.JButton runButton1;
+    private javax.swing.JToggleButton runButton1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JTextField textInputTextField3;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane jTextPane2;
+    private File f;
 
 
     public UI() {
@@ -78,7 +79,7 @@ public class UI extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         chooseFileButton1 = new javax.swing.JButton();
-        runButton1 = new javax.swing.JButton();
+        runButton1 = new javax.swing.JToggleButton();
         jLabel11 = new javax.swing.JLabel();
         textInputTextField3 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -108,7 +109,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Random"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Szyfrowanie strumieniowe"}));
 
         jLabel1.setText("Wybierz algorytm");
 
@@ -126,7 +127,11 @@ public class UI extends javax.swing.JFrame {
         runButton.setText("Wykonaj");
         runButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runButtonActionPerformed(evt);
+                try {
+                    runButtonActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -382,14 +387,14 @@ public class UI extends javax.swing.JFrame {
     private void chooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {
         int i = fileChooser.showOpenDialog(this);
         if (i == JFileChooser.APPROVE_OPTION) {
-            File f = fileChooser.getSelectedFile();
+            f = fileChooser.getSelectedFile();
             jLabel5.setText("Wybrany plik: " + f.getName());
             readFile(f);
         }
     }
 
 
-    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {
         int index = algorithmComboBox.getSelectedIndex();
         resultTextPane.setText("");
         switch (index) {
@@ -506,7 +511,26 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 6:
-                LFSR.convertPolynomial(dataInputTextField.getText());
+                LFSR lfsr = new LFSR("0111101101001101001101");
+                SynchronousStreamCipher synchronousStreamCipher;
+                if (!dataInputTextField.getText().matches("")) {
+                    synchronousStreamCipher = new SynchronousStreamCipher(dataInputTextField.getText(), lfsr);
+                    if (action) {
+                        resultTextPane.setText(synchronousStreamCipher.encrypt());
+                    } else {
+                        resultTextPane.setText(synchronousStreamCipher.decrypt());
+                    }
+                } else {
+                    synchronousStreamCipher = new SynchronousStreamCipher(f, lfsr);
+                    if (action) {
+                        synchronousStreamCipher.encryptFile();
+                        resultTextPane.setText("Zaszyfrowano do pliku o nazwie pathname");
+                    } else {
+                        synchronousStreamCipher.encryptFile();
+                        resultTextPane.setText("Odszyfrowano do pliku o nazwie pathname");
+                    }
+                }
+                break;
 
             default:
                 System.out.println("Problem z wybranym algorytmem");
@@ -520,8 +544,12 @@ public class UI extends javax.swing.JFrame {
     }
 
     private void chooseFileButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-
+        LFSR lfsr = new LFSR(textInputTextField3.getText());
+        //LFSR.convertPolynomial(dataInputTextField.getText());
+        jTextPane2.setText(lfsr.generate(runButton1, jTextPane2));
     }
+
+
 
     public static void main(String args[]) {
 
