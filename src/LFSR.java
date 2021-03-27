@@ -68,13 +68,18 @@ public class LFSR {
 
     public static String convertPolynomial(String string) {
         String[] pom = string.split("(-|\\+)");
-        int[] result = new int[pom.length];
+        List<Integer> result = new ArrayList<>();
         for (int i = 0; i < pom.length; i++) {
             String[] parts = pom[i].split("\\^");
-            result[i] = (parts.length > 1 ? Integer.parseInt(parts[1]) : 1);
+           if(parts[0].charAt(0)=='x' && parts.length==1){
+               result.add(0);
+               result.add(1);
+           }else if(parts[0].charAt(0) == '1' && parts.length==1){
+                result.add(1);
+           }
         }
 
-        System.out.println(2);
+
         return "";
     }
 }
