@@ -14,6 +14,7 @@ public class SynchronousStreamCipher {
     private LFSR lfsr;
     private String fileFormat[] ;
     private byte[] filebytes;
+
     public SynchronousStreamCipher(String passwd, LFSR lfsr){
         this.passwd = passwd;
         this.lfsr = lfsr;
@@ -24,9 +25,6 @@ public class SynchronousStreamCipher {
         fileFormat = file.getName().split("\\.");
         this.lfsr = lfsr;
     }
-
-
-
 
     public void encryptFile(){
        BitSet bitset = BitSet.valueOf(filebytes);
@@ -49,18 +47,15 @@ public class SynchronousStreamCipher {
     public String encrypt(){
         String result = "";
         String binary = "";
-
         for (int i = 0; i < passwd.getBytes().length; i++){
             binary+= String.format("%8s", Integer.toBinaryString(passwd.getBytes()[i] & 0xFF)).replace(' ', '0');
         }
         for(int i = 0; i<binary.length(); i++){
             passwdlist.add((int) binary.charAt(i)-48);
         }
-
         for(int i = 0; i < passwdlist.size(); i++){
             result = result + (lfsr.step()^passwdlist.get(i));
         }
-
         return result;
     }
 
@@ -70,16 +65,13 @@ public class SynchronousStreamCipher {
         for(int i = 0; i<passwd.length(); i++){
             passwdlist.add((int) passwd.charAt(i)-48);
         }
-
         for(int i = 0; i < passwdlist.size(); i++){
             result = result + (lfsr.step()^passwdlist.get(i));
         }
-
         for(int i = 0; i<=result.length() - 8; i+=8){
             int k = Integer.parseInt(result.substring(i, i+8), 2);
             result1 += (char)k;
         }
-
         return result1;
     }
 }

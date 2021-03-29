@@ -524,10 +524,10 @@ public class UI extends javax.swing.JFrame {
                     synchronousStreamCipher = new SynchronousStreamCipher(f, lfsr);
                     if (action) {
                         synchronousStreamCipher.encryptFile();
-                        resultTextPane.setText("Zaszyfrowano do pliku o nazwie pathname");
+                        resultTextPane.setText("Zaszyfrowano do pliku o nazwie szyfrowany");
                     } else {
                         synchronousStreamCipher.encryptFile();
-                        resultTextPane.setText("Odszyfrowano do pliku o nazwie pathname");
+                        resultTextPane.setText("Odszyfrowano do pliku o nazwie szyfrowany");
                     }
                 }
                 break;
@@ -544,7 +544,7 @@ public class UI extends javax.swing.JFrame {
     }
 
     private void chooseFileButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        LFSR lfsr = new LFSR(textInputTextField3.getText());
+        LFSR lfsr = new LFSR(LFSR.convertPolynomial(textInputTextField3.getText()));
         //LFSR.convertPolynomial(dataInputTextField.getText());
         jTextPane2.setText(lfsr.generate(runButton1, jTextPane2));
     }
