@@ -511,7 +511,7 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 6:
-                LFSR lfsr = new LFSR("0111101101001101001101");
+                LFSR lfsr = new LFSR(LFSR.convertPolynomial(codeInputTextField.getText()));
                 SynchronousStreamCipher synchronousStreamCipher;
                 if (!dataInputTextField.getText().matches("")) {
                     synchronousStreamCipher = new SynchronousStreamCipher(dataInputTextField.getText(), lfsr);

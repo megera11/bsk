@@ -39,10 +39,8 @@ public class SynchronousStreamCipher {
         bitset.xor(random);
 
 
-
         try (FileOutputStream fos = new FileOutputStream("szyfrowany." + fileFormat[fileFormat.length-1])) {
             fos.write(bitset.toByteArray());
-            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
         } catch (IOException e) {
             e.printStackTrace();
         }

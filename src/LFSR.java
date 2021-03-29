@@ -22,13 +22,13 @@ public class LFSR {
         int tapBit = ithConv(oldReg, N - 1);
         int fstBit = ithConv(oldReg, 0);
         int curLastBit = tapBit ^ fstBit;
-        char lastChar;
+        char firstChar;
         if (curLastBit == 0)
-            lastChar = '0';
+            firstChar = '0';
         else
-            lastChar = '1';
+            firstChar = '1';
 
-        reg = lastChar + oldReg.substring(0, oldReg.length() - 1);
+        reg = firstChar + oldReg.substring(0, oldReg.length() - 1);
         return tapBit;
     }
 
@@ -68,19 +68,31 @@ public class LFSR {
 
     public static String convertPolynomial(String string) {
         String[] pom = string.split("(-|\\+)");
-        List<Integer> result = new ArrayList<>();
+        int size = string.charAt(string.length()-1)-'0';
+        String[] pom1 = pom[pom.length-1].split("\\^");
+        char seed[] = new char[Integer.parseInt(pom1[1])+1];
+
+        for(int i =0; i<seed.length;i++){
+            seed[i]='0';
+        }
+
         for (int i = 0; i < pom.length; i++) {
             String[] parts = pom[i].split("\\^");
            if(parts[0].charAt(0)=='x' && parts.length==1){
-               result.add(0);
-               result.add(1);
+             seed[1]='1';
            }else if(parts[0].charAt(0) == '1' && parts.length==1){
-                result.add(1);
+               seed[0]='1';
+           }else if(parts.length>1){
+               seed[Integer.parseInt(parts[1])] ='1';
            }
+
         }
-
-
-        return "";
+        String result= "";
+        StringBuilder sb = new StringBuilder();
+        for(int i =0; i<seed.length;i++){
+           sb.append(seed[i]);
+        }
+        return sb.toString();
     }
 }
 
