@@ -109,7 +109,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Szyfrowanie strumieniowe"}));
+        algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Rail fence", "Przestawienie A", "Przestawienie B", "Przestawienie C", "Cezar", "Vigenere", "Szyfrowanie strumieniowe", "DES"}));
 
         jLabel1.setText("Wybierz algorytm");
 
@@ -531,7 +531,22 @@ public class UI extends javax.swing.JFrame {
                     }
                 }
                 break;
+            case 7:
+                DES des = new DES();
+                if (!dataInputTextField.getText().matches("")) {
 
+                    if (action) {
+                        resultTextPane.setText(des.encrypt(dataInputTextField.getText(), codeInputTextField.getText()));
+                    } else {
+                        resultTextPane.setText(des.decrypt(dataInputTextField.getText(), codeInputTextField.getText()));
+                    }
+                } else {
+                    if (action) {
+                        //resultTextPane.setText(des.encrypt(this.data));
+                    } else {
+                        //resultTextPane.setText(des.decrypt(this.data));
+                    }
+                }
             default:
                 System.out.println("Problem z wybranym algorytmem");
                 break;
