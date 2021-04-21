@@ -565,7 +565,6 @@ public class UI extends javax.swing.JFrame {
     }
 
 
-
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
