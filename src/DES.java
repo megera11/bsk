@@ -147,6 +147,7 @@ public class DES {
 
     }
 
+
     private static byte[] encrypt64Bloc(byte[] bloc,byte[][] subkeys) {
         byte[] tmp = new byte[bloc.length];
         byte[] R = new byte[bloc.length / 2];
