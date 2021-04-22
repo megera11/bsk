@@ -532,21 +532,16 @@ public class UI extends javax.swing.JFrame {
                 }
                 break;
             case 7:
-                DES des = new DES();
-                if (!dataInputTextField.getText().matches("")) {
+                DES des = new DES(f, codeInputTextField.getText());
 
                     if (action) {
-                        resultTextPane.setText(des.encrypt(dataInputTextField.getText(), codeInputTextField.getText()));
+                        des.encrypt();
+                        resultTextPane.setText("Zaszyfrowano");
                     } else {
-                        resultTextPane.setText(des.decrypt(dataInputTextField.getText(), codeInputTextField.getText()));
+                        des.decrypt();
+                        resultTextPane.setText("Odszyfrowano");
                     }
-                } else {
-                    if (action) {
-                        //resultTextPane.setText(des.encrypt(this.data));
-                    } else {
-                        //resultTextPane.setText(des.decrypt(this.data));
-                    }
-                }
+                    break;
             default:
                 System.out.println("Problem z wybranym algorytmem");
                 break;
