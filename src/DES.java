@@ -77,11 +77,13 @@ public class DES {
 
             } };
 
-    private static byte[][] K;
+
 
     private byte[] filebytes;
     private String fileFormat[];
     private byte[] key;
+
+    private static byte[][] K;
 
     public DES (File file, String key) throws IOException {
         filebytes = Files.readAllBytes(file.toPath());
