@@ -538,7 +538,7 @@ public class UI extends javax.swing.JFrame {
                         des.encrypt();
                         resultTextPane.setText("Zaszyfrowano");
                     } else {
-                        //des.decrypt();
+                        des.decrypt();
                         resultTextPane.setText("Odszyfrowano");
                     }
                     break;

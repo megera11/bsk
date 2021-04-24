@@ -231,7 +231,6 @@ public class DES {
         return out;
     }
 
-
     private static byte[] deletePadding(byte[] input) {
         int count = 0;
 
@@ -245,7 +244,6 @@ public class DES {
         System.arraycopy(input, 0, tmp, 0, tmp.length);
         return tmp;
     }
-
 
 
     private static byte[][] generateSubKeys(byte[] key) {
@@ -302,6 +300,38 @@ public class DES {
             bloc = encrypt64Bloc(bloc,K);
             System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
         }
+
+        try (FileOutputStream fos = new FileOutputStream("szyfrowany." + fileFormat[fileFormat.length-1])) {
+            fos.write(tmp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tmp;
+    }
+
+
+    public byte[] decrypt() {
+        int i;
+        byte[] tmp = new byte[filebytes.length];
+        byte[] bloc = new byte[8];
+
+        K = generateSubKeys(key);
+
+        for (i = 0; i < filebytes.length; i++) {
+            if (i > 0 && i % 8 == 0) {
+                bloc = encrypt64Bloc(bloc,K);
+                System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
+            }
+            if (i < filebytes.length)
+                bloc[i % 8] = filebytes[i];
+        }
+        bloc = encrypt64Bloc(bloc,K);
+        System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
+
+
+        tmp = deletePadding(tmp);
+
 
         try (FileOutputStream fos = new FileOutputStream("szyfrowany." + fileFormat[fileFormat.length-1])) {
             fos.write(tmp);
