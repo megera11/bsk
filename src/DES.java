@@ -150,7 +150,7 @@ public class DES {
     }
 
 
-    private static byte[] encrypt64Bloc(byte[] bloc,byte[][] subkeys) {
+    private static byte[] encrypt64Bloc(byte[] bloc,byte[][] subkeys, boolean isDecrypt) {
         byte[] tmp = new byte[bloc.length];
         byte[] R = new byte[bloc.length / 2];
         byte[] L = new byte[bloc.length / 2];
@@ -162,7 +162,10 @@ public class DES {
 
         for (int i = 0; i < 16; i++) {
             byte[] tmpR = R;
-            R = f_func(R,subkeys[i]);
+            if(isDecrypt)
+                R = f_func(R, subkeys[15-i]);
+            else
+                R = f_func(R,subkeys[i]);
             R = xor_func(L, R);
             L = tmpR;
         }
@@ -286,7 +289,7 @@ public class DES {
 
         for (i = 0; i < filebytes.length + lenght; i++) {
             if (i > 0 && i % 8 == 0) {
-                bloc = encrypt64Bloc(bloc,K);
+                bloc = encrypt64Bloc(bloc,K, false);
                 System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
             }
             if (i < filebytes.length)
@@ -297,7 +300,7 @@ public class DES {
             }
         }
         if(bloc.length == 8){
-            bloc = encrypt64Bloc(bloc,K);
+            bloc = encrypt64Bloc(bloc,K, false);
             System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
         }
 
@@ -320,13 +323,13 @@ public class DES {
 
         for (i = 0; i < filebytes.length; i++) {
             if (i > 0 && i % 8 == 0) {
-                bloc = encrypt64Bloc(bloc,K);
+                bloc = encrypt64Bloc(bloc,K, true);
                 System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
             }
             if (i < filebytes.length)
                 bloc[i % 8] = filebytes[i];
         }
-        bloc = encrypt64Bloc(bloc,K);
+        bloc = encrypt64Bloc(bloc,K, true);
         System.arraycopy(bloc, 0, tmp, i - 8, bloc.length);
 
 
